@@ -17,6 +17,7 @@ public class WorkingThread extends Thread {
 				System.out.println("Peek, queue size=" + queue.size());
 				long timeBefore = System.currentTimeMillis();
 				long timeDiff = timeRunnable.getTime() - timeBefore;
+				System.out.println("Time diff=" + timeDiff);
 				if (timeDiff > 0) {
 					synchronized (queue) {
 						try {
@@ -25,18 +26,19 @@ public class WorkingThread extends Thread {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-
-						if (System.currentTimeMillis() >= timeBefore + timeDiff) {
-							new Thread(timeRunnable.getRunnable()).start();
+						long timeAfter = System.currentTimeMillis();
+						if (timeAfter >= timeBefore + timeDiff) {
+							timeRunnable.getRunnable().run();							
 							queue.remove(timeRunnable);
-							System.out.println("Started and removed, queue size=" + queue.size());
+							System.out.println("Started and removed 1, queue size=" + queue.size());
 						} else {
 							System.out.println("Wait interrupted");
 						}
 					}// synchronized
 				} else {
+					timeRunnable.getRunnable().run();
 					queue.remove(timeRunnable);
-					System.out.println("Removed from queue");
+					System.out.println("Started and removed 2, queue size=" + queue.size());
 				}
 			}
 		}// true

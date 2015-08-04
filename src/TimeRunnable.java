@@ -1,6 +1,6 @@
-public class TimeRunnable {
+public class TimeRunnable implements Comparable<TimeRunnable> {
 
-	private long time;
+	private Long time;
 	private Runnable runnable;
 
 
@@ -15,6 +15,12 @@ public class TimeRunnable {
 
 	public Runnable getRunnable() {
 		return runnable;
+	}
+
+	@Override
+	public int compareTo(TimeRunnable other) {
+		// TODO Auto-generated method stub
+		return this.time.compareTo(other.time);
 	}
 
 }
